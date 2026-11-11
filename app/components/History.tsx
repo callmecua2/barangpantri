@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export interface StockHistoryLog {
   id: number;
@@ -17,74 +17,93 @@ interface StockHistoryTableProps {
 }
 
 const formatDate = (isoString: string): string => {
-  if (!isoString || isoString === '-') return '-';
-  const d = new Date(isoString);
-  if (isNaN(d.getTime())) return isoString;
+  if (!isoString || isoString === "-") return "-";
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return isoString;
 
-  const pad = (n: number) => String(n).padStart(2, '0');
-  const year = d.getFullYear();
-  const month = pad(d.getMonth() + 1);
-  const day = pad(d.getDate());
-  const hours = pad(d.getHours());
-  const minutes = pad(d.getMinutes());
-  const seconds = pad(d.getSeconds());
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  return new Intl.DateTimeFormat("id-ID", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
 };
 
 export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) => {
+  if (data.length === 0) {
+    return <div className="table-card empty-state">Belum ada riwayat penggunaan stok.</div>;
+  }
+
   return (
-    <div style={{ overflowX: 'auto' }}>
-      <table style={{ borderCollapse: 'collapse', width: '100%', border: '1px solid #000' }}>
-        <thead>
-          <tr>
-            <th style={thStyle}>No</th>
-            <th style={thStyle}>Nama Barang</th>
-            <th style={thStyle}>Tanggal & Jam</th>
-            <th style={thStyle}>Keterangan</th>
-            <th style={thStyle}>Jumlah</th>
-            <th style={thStyle}>Penanggung Jawab</th>
-            <th style={thStyle}>Stok setelah update</th>
-            <th style={thStyle}>Stok sebelum update</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row) => (
-            <tr key={row.id}>
-              <td style={tdCenterStyle}>{row.no}</td>
-              <td style={tdStyle}>{row.namaBarang}</td>
-              <td style={tdCenterStyle}>{formatDate(row.tanggal)}</td>
-              <td style={tdStyle}>{row.keterangan}</td>
-              <td style={{ ...tdCenterStyle, fontWeight: 'bold', color: row.jumlah < 0 ? '#d9534f' : '#5cb85c' }}>
-                {row.jumlah > 0 ? `+${row.jumlah}` : row.jumlah}
-              </td>
-              <td style={tdStyle}>{row.penanggungJawab}</td>
-              <td style={tdCenterStyle}>{row.stokSetelahUpdate}</td>
-              <td style={tdCenterStyle}>{row.stokSebelumUpdate}</td>
+    <div className="table-card">
+      <div className="table-scroll responsive-table-desktop">
+        <table className="responsive-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Barang</th>
+              <th>Tanggal & Jam</th>
+              <th>Keterangan</th>
+              <th className="cell-center">Jumlah</th>
+              <th>Penanggung Jawab</th>
+              <th className="cell-center">Stok Setelah</th>
+              <th className="cell-center">Stok Sebelum</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.id}>
+                <td className="cell-center cell-muted">{row.no}</td>
+                <td className="cell-strong">{row.namaBarang}</td>
+                <td>{formatDate(row.tanggal)}</td>
+                <td>{row.keterangan}</td>
+                <td className={`cell-center ${row.jumlah < 0 ? "movement-negative" : "movement-positive"}`}>
+                  {row.jumlah > 0 ? `+${row.jumlah}` : row.jumlah}
+                </td>
+                <td>{row.penanggungJawab}</td>
+                <td className="cell-center">{row.stokSetelahUpdate}</td>
+                <td className="cell-center">{row.stokSebelumUpdate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mobile-records">
+        {data.map((row) => (
+          <article className="mobile-record" key={row.id}>
+            <div className="mobile-record-heading">
+              <div>
+                <span className="mobile-record-index">Transaksi #{row.no}</span>
+                <div className="mobile-record-title">{row.namaBarang}</div>
+              </div>
+              <span className={row.jumlah < 0 ? "movement-negative" : "movement-positive"}>
+                {row.jumlah > 0 ? `+${row.jumlah}` : row.jumlah}
+              </span>
+            </div>
+            <div className="mobile-record-grid">
+              <div className="mobile-field">
+                <span className="mobile-field-label">Tanggal & jam</span>
+                <span className="mobile-field-value">{formatDate(row.tanggal)}</span>
+              </div>
+              <div className="mobile-field">
+                <span className="mobile-field-label">Keterangan</span>
+                <span className="mobile-field-value">{row.keterangan}</span>
+              </div>
+              <div className="mobile-field">
+                <span className="mobile-field-label">Stok sebelum</span>
+                <span className="mobile-field-value">{row.stokSebelumUpdate}</span>
+              </div>
+              <div className="mobile-field">
+                <span className="mobile-field-label">Stok setelah</span>
+                <span className="mobile-field-value">{row.stokSetelahUpdate}</span>
+              </div>
+              <div className="mobile-field">
+                <span className="mobile-field-label">Penanggung jawab</span>
+                <span className="mobile-field-value">{row.penanggungJawab}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   );
-};
-
-const thStyle: React.CSSProperties = {
-  border: '1px solid #000',
-  padding: '8px',
-  backgroundColor: '#f2f2f2',
-  textAlign: 'center',
-  fontWeight: 'bold',
-};
-
-const tdStyle: React.CSSProperties = {
-  border: '1px solid #000',
-  padding: '8px',
-  textAlign: 'left',
-};
-
-const tdCenterStyle: React.CSSProperties = {
-  border: '1px solid #000',
-  padding: '8px',
-  textAlign: 'center',
 };
