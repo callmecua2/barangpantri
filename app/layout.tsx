@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -41,9 +40,7 @@ export const usePantry = () => {
   const context = useContext(AppContext);
 
   if (!context) {
-    throw new Error(
-      "usePantry harus digunakan di dalam AppContext"
-    );
+    throw new Error("usePantry harus digunakan di dalam AppContext");
   }
 
   return context;
@@ -71,39 +68,36 @@ export default function RootLayout({
 
       setStockItems(stocks);
       setHistoryLogs(toHistoryLogs(histories));
-    } catch (e) {
-      console.error("Gagal mengambil data:", e);
+    } catch (error) {
+      console.error("Gagal mengambil data:", error);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Memeriksa sesi autentikasi
   useEffect(() => {
     let isMounted = true;
 
     api
       .getMe()
-      .then((res) => {
+      .then((response) => {
         if (!isMounted) return;
 
-        if (res?.data) {
-          setUser(res.data);
-          refreshAll();
+        if (response?.data) {
+          setUser(response.data);
+          void refreshAll();
         } else {
           setUser(null);
         }
       })
-      .catch((err) => {
+      .catch((error) => {
         if (isMounted) {
-          console.error("Gagal memeriksa sesi:", err);
+          console.error("Gagal memeriksa sesi:", error);
           setUser(null);
         }
       })
       .finally(() => {
-        if (isMounted) {
-          setAuthChecked(true);
-        }
+        if (isMounted) setAuthChecked(true);
       });
 
     return () => {
@@ -113,12 +107,11 @@ export default function RootLayout({
 
   const handleLoginSuccess = (userData: User) => {
     setUser(userData);
-    refreshAll();
+    void refreshAll();
   };
 
   const handleLogout = async () => {
     await api.logout().catch(() => {});
-
     setUser(null);
     setStockItems([]);
     setHistoryLogs([]);
@@ -143,40 +136,20 @@ export default function RootLayout({
           }}
         >
           <div id="app-container">
+            {!authChecked && <p style={{ padding: 24 }}>Memuat...</p>}
 
-            {/* Status autentikasi */}
-            {!authChecked && (
-              <p style={{ padding: 24 }}>
-                Memuat...
-              </p>
-            )}
+            {authChecked && !user && <LoginForm onLogin={handleLoginSuccess} />}
 
-            {/* Login */}
-            {authChecked && !user && (
-              <LoginForm
-                onLogin={handleLoginSuccess}
-              />
-            )}
-
-            {/* Navbar */}
             {authChecked && user && (
-              <Navbar
-                user={user}
-                onLogout={handleLogout}
-              />
+              <Navbar user={user} onLogout={handleLogout} />
             )}
 
-            {/* Children selalu dirender */}
-            <main style={{ padding: "24px" }}>
+            <main className="app-main">
               {loading && user && (
-                <p style={{ marginBottom: 12 }}>
-                  Memuat data...
-                </p>
+                <p style={{ marginBottom: 16 }}>Memuat data...</p>
               )}
-
               {children}
             </main>
-
           </div>
         </AppContext.Provider>
       </body>

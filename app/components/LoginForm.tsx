@@ -4,67 +4,64 @@
 import { useState } from "react";
 import { api, User } from "@/lib/api";
 
-export default function LoginForm({ onLogin }: { onLogin: (u: User) => void }) {
+export default function LoginForm({ onLogin }: { onLogin: (user: User) => void }) {
   const [nama, setNama] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!nama.trim()) {
-      setErr("Nama wajib diisi");
+      setErr("Nama wajib diisi.");
       return;
     }
+
     setLoading(true);
     setErr("");
+
     try {
-      const r = await api.login(nama.trim());
-      onLogin(r.data);
-    } catch (e: any) {
-      setErr(e.message);
+      const response = await api.login(nama.trim());
+      onLogin(response.data);
+    } catch (error: any) {
+      setErr(error.message || "Login gagal. Silakan coba lagi.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        maxWidth: 360,
-        margin: "80px auto",
-        padding: 24,
-        border: "1px solid #ddd",
-        borderRadius: 8,
-      }}
-    >
-      <h2 style={{ marginBottom: 16 }}>Login Stok Pantry</h2>
-      <form
-        onSubmit={submit}
-        style={{ display: "flex", flexDirection: "column", gap: 12 }}
-      >
-        <label>
-          Nama kamu
-          <input
-            type="text"
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
-            placeholder="Masukkan nama"
-            style={{ width: "100%", padding: 8, marginTop: 4 }}
-            autoFocus
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            padding: "10px 16px",
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
-        >
-          {loading ? "Memuat..." : "Masuk"}
-        </button>
-        {err && <p style={{ color: "red", margin: 0 }}>{err}</p>}
-      </form>
+    <div className="login-shell">
+      <section className="login-card">
+        <h2>Login Stok Pantry</h2>
+        <p className="login-description">
+          Masuk untuk melihat dan mengelola persediaan pantry.
+        </p>
+
+        <form onSubmit={submit} className="update-form" style={{ padding: 0, border: 0, boxShadow: "none" }}>
+          <div className="form-field">
+            <label className="form-label" htmlFor="login-nama">Nama kamu</label>
+            <input
+              id="login-nama"
+              type="text"
+              value={nama}
+              onChange={(event) => setNama(event.target.value)}
+              placeholder="Masukkan nama"
+              className="form-control"
+              autoComplete="username"
+              autoFocus
+              required
+              disabled={loading}
+            />
+          </div>
+
+          {err && <p className="form-error" role="alert">{err}</p>}
+
+          <button type="submit" className="primary-button" disabled={loading}>
+            {loading ? "Memproses..." : "Masuk"}
+          </button>
+        </form>
+      </section>
     </div>
   );
 }
