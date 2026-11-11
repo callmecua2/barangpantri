@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { User } from "@/lib/api";
@@ -11,6 +12,7 @@ interface NavbarProps {
 
 export default function Navbar({ user, onLogout }: NavbarProps) {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
     { href: "/stok", label: "Data Stok Pantry" },
@@ -21,37 +23,55 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
 
   return (
     <>
-      <section className="navigation-section">
-        <nav className="nav-link">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`nav-item ${pathname === link.href ? "active" : ""}`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            marginLeft: "auto",
-          }}
+      <header className="navigation-section">
+        <Link
+          href="/stok"
+          className="nav-brand"
+          onClick={() => setMenuOpen(false)}
         >
-          <span style={{ fontSize: 14 }}>
-            Login sebagai: <strong>{user.nama}</strong>
-          </span>
-          <button
-            onClick={onLogout}
-            style={{ padding: "6px 12px", cursor: "pointer" }}
-          >
-            Logout
-          </button>
+          Pantry Stock
+        </Link>
+
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-label={menuOpen ? "Tutup navigasi" : "Buka navigasi"}
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span aria-hidden="true">{menuOpen ? "×" : "☰"}</span>
+        </button>
+
+        <div
+          id="primary-navigation"
+          className={`nav-content ${menuOpen ? "is-open" : ""}`}
+        >
+          <nav className="nav-link" aria-label="Navigasi utama">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={pathname === link.href ? "page" : undefined}
+                className={`nav-item ${pathname === link.href ? "active" : ""}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="nav-user">
+            <span className="nav-user-name">
+              <span className="nav-user-label">Login sebagai</span>
+              {user.nama}
+            </span>
+            <button type="button" className="nav-logout" onClick={onLogout}>
+              Logout
+            </button>
+          </div>
         </div>
-      </section>
+      </header>
       <hr className="divider" />
     </>
   );
