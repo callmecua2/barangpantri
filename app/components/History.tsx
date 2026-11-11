@@ -16,6 +16,22 @@ interface StockHistoryTableProps {
   data: StockHistoryLog[];
 }
 
+const formatDate = (isoString: string): string => {
+  if (!isoString || isoString === '-') return '-';
+  const d = new Date(isoString);
+  if (isNaN(d.getTime())) return isoString;
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const year = d.getFullYear();
+  const month = pad(d.getMonth() + 1);
+  const day = pad(d.getDate());
+  const hours = pad(d.getHours());
+  const minutes = pad(d.getMinutes());
+  const seconds = pad(d.getSeconds());
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
 export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) => {
   return (
     <div style={{ overflowX: 'auto' }}>
@@ -24,7 +40,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
           <tr>
             <th style={thStyle}>No</th>
             <th style={thStyle}>Nama Barang</th>
-            <th style={thStyle}>Tanggal</th>
+            <th style={thStyle}>Tanggal & Jam</th>
             <th style={thStyle}>Keterangan</th>
             <th style={thStyle}>Jumlah</th>
             <th style={thStyle}>Penanggung Jawab</th>
@@ -37,7 +53,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
             <tr key={row.id}>
               <td style={tdCenterStyle}>{row.no}</td>
               <td style={tdStyle}>{row.namaBarang}</td>
-              <td style={tdCenterStyle}>{row.tanggal}</td>
+              <td style={tdCenterStyle}>{formatDate(row.tanggal)}</td>
               <td style={tdStyle}>{row.keterangan}</td>
               <td style={{ ...tdCenterStyle, fontWeight: 'bold', color: row.jumlah < 0 ? '#d9534f' : '#5cb85c' }}>
                 {row.jumlah > 0 ? `+${row.jumlah}` : row.jumlah}

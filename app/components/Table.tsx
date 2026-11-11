@@ -4,12 +4,10 @@ export interface StockData {
   no: number;
   namaBarang: string;
   jumlahStok: number;
-  jumlahPemakaianPenambahan: number;
   tanggalUpdate: string;
   keterangan: string;
   penanggungJawab: string;
-  jumlahStokTerakhir: number;
-  tanggalUpdateTerakhir: string;
+  jumlahPemakaianPenambahan: number;
 }
 
 interface StockTableProps {
@@ -24,16 +22,14 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
           <tr>
             <th rowSpan={2} style={thStyle}>No</th>
             <th rowSpan={2} style={thStyle}>Nama Barang</th>
-            <th rowSpan={2} style={thStyle}>Jumlah Stok Update</th>
-            <th colSpan={6} style={thStyle}>Data Update</th>
+            <th rowSpan={2} style={thStyle}>Jumlah Stok Terupdate</th>
+            <th colSpan={4} style={thStyle}>Data Update</th>
           </tr>
           <tr>
-            <th style={thStyle}>Jumlah Pemakaian/Penambahan</th>
             <th style={thStyle}>Tanggal Update</th>
             <th style={thStyle}>Keterangan</th>
             <th style={thStyle}>Penanggung Jawab</th>
-            <th style={thStyle}>Jumlah Stok Terakhir</th>
-            <th style={thStyle}>Tanggal Update Terakhir</th>
+            <th style={thStyle}>Jumlah Penggunaan/Restock</th>
           </tr>
         </thead>
         <tbody>
@@ -42,12 +38,10 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
               <td style={tdCenterStyle}>{row.no}</td>
               <td style={tdStyle}>{row.namaBarang}</td>
               <td style={tdCenterStyle}>{row.jumlahStok}</td>
-              <td style={tdCenterStyle}>{row.jumlahPemakaianPenambahan}</td>
               <td style={tdCenterStyle}>{row.tanggalUpdate}</td>
               <td style={tdStyle}>{row.keterangan}</td>
               <td style={tdStyle}>{row.penanggungJawab}</td>
-              <td style={tdCenterStyle}>{row.jumlahStokTerakhir}</td>
-              <td style={tdCenterStyle}>{row.tanggalUpdateTerakhir}</td>
+              <td style={tdCenterStyle}>{row.jumlahPemakaianPenambahan}</td>
             </tr>
           ))}
         </tbody>
