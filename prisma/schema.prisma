@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id        String   @id @default(uuid())
+  nama      String
+
+  barang    Barang[]         // barang yang diinput user ini
+  movements StockMovement[]  // movement yang dipertanggungjawabkan
+}
+
+model Barang {
+  id          String @id @default(uuid())
+  nama        String
+  stok        Int    @default(0)      // ← source of truth stok terkini
+
+  inputOlehId String
+  inputOleh   User   @relation(fields: [inputOlehId], references: [id])
+
+  movements   StockMovement[]
+}
+
+model StockMovement {
+  id          String   @id @default(uuid())
+
+  idBarang    String
+  barang      Barang   @relation(fields: [idBarang], references: [id])
+
+  tipe        String   // "PEMAKAIAN" | "RESTOCK" | "INISIALISASI"
+  jumlah      Int      // SELALU positif, arah ditentukan oleh `tipe`
+
+  stokSebelum Int      // snapshot stok sebelum update
+  stokSesudah Int      // snapshot stok sesudah update
+
+  penanggungJawabId String
+  penanggungJawab   User   @relation(fields: [penanggungJawabId], references: [id])
+
+  tanggal     DateTime @default(now())
+
+  @@index([idBarang, tanggal])   // percepat query "latest per barang"
+}
+
+model Test {
+  name String @unique
+}
