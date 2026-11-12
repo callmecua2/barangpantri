@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 export interface StockHistoryLog {
   id: string;
@@ -100,7 +100,13 @@ const isRestock = (row: StockHistoryLog) => row.keterangan === "RESTOCK";
 export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) => {
   const [selectedItem, setSelectedItem] = useState("all");
   const [period, setPeriod] = useState<Period>("day");
-  const [selectedDate, setSelectedDate] = useState(todayKey);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [isDateReady, setIsDateReady] = useState(false);
+
+  useEffect(() => {
+    setSelectedDate(todayKey());
+    setIsDateReady(true);
+  }, []);
 
   const items = useMemo(() => {
     const unique = new Map<string, string>();
@@ -113,7 +119,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
   }, [data]);
 
   const range = useMemo(
-    () => getDateRange(selectedDate, period),
+    () => selectedDate ? getDateRange(selectedDate, period) : { start: "", end: "" },
     [selectedDate, period]
   );
 
@@ -166,6 +172,10 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
     range.start === range.end
       ? formatDate(`${range.start}T00:00:00+07:00`)
       : `${formatDate(`${range.start}T00:00:00+07:00`)} – ${formatDate(`${range.end}T00:00:00+07:00`)}`;
+
+  if (!isDateReady) {
+    return <div className="table-card empty-state" aria-live="polite">Menyiapkan analisis riwayat...</div>;
+  }
 
   if (data.length === 0) {
     return <div className="table-card empty-state">Belum ada riwayat penggunaan stok.</div>;
