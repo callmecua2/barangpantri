@@ -9,6 +9,9 @@ export default function RiwayatPage() {
   return (
     <section className="history-data">
       <h2>Riwayat Penggunaan Stok Pantry</h2>
+      <p className="page-description">
+        Pantau pemakaian, frekuensi penggunaan, dan perubahan stok berdasarkan periode.
+      </p>
       <StockHistoryTable data={historyLogs} />
     </section>
   );
