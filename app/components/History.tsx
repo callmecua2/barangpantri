@@ -137,7 +137,11 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
   );
   const totalUsage = consumptionRows.reduce((total, row) => total + Math.abs(row.jumlah), 0);
   const usageFrequency = consumptionRows.length;
-  const dayCount = range ? getDays(range.start, range.end).length : 1;
+  const today = dateKey(new Date().toISOString());
+  const elapsedEnd = range && range.end > today ? today : range?.end;
+  const dayCount = range && elapsedEnd && range.start <= today
+    ? getDays(range.start, elapsedEnd).length
+    : 1;
   const averageUsage = totalUsage / Math.max(dayCount, 1);
 
   const latestUpdates = useMemo(() => {
