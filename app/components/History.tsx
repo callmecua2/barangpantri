@@ -27,8 +27,6 @@ const pad = (value: number) => String(value).padStart(2, "0");
 const dateKey = (date: Date) =>
   `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 
-const todayKey = () => dateKey(new Date());
-
 const dateKeyInJakarta = (date: Date) => {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Jakarta",
@@ -39,6 +37,8 @@ const dateKeyInJakarta = (date: Date) => {
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
 };
+
+const todayKey = () => dateKeyInJakarta(new Date());
 
 const parseDateKey = (value: string) => {
   const [year, month, day] = value.split("-").map(Number);
@@ -300,7 +300,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
                     <th>No</th>
                     <th>Nama Barang</th>
                     <th>Tanggal & Jam</th>
-                    <th>Update Sebelumnya</th>
+                    <th>Tanggal Update Sebelumnya</th>
                     <th>Keterangan</th>
                     <th className="cell-center">Jumlah</th>
                     <th>Penanggung Jawab</th>
@@ -314,7 +314,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
                       <td className="cell-center cell-muted">{index + 1}</td>
                       <td className="cell-strong">{row.namaBarang}</td>
                       <td>{formatDateTime(row.tanggal)}</td>
-                      <td>{formatDateTime(row.tanggalSebelumnya ?? "")}</td>
+                      <td>{formatDate(row.tanggalSebelumnya)}</td>
                       <td>{row.keterangan}</td>
                       <td className={`cell-center ${row.jumlah < 0 ? "movement-negative" : "movement-positive"}`}>
                         {row.jumlah > 0 ? `+${row.jumlah}` : row.jumlah}
@@ -347,7 +347,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
                     </div>
                     <div className="mobile-field">
                       <span className="mobile-field-label">Update sebelumnya</span>
-                      <span className="mobile-field-value">{formatDateTime(row.tanggalSebelumnya ?? "")}</span>
+                      <span className="mobile-field-value">{formatDate(row.tanggalSebelumnya)}</span>
                     </div>
                     <div className="mobile-field">
                       <span className="mobile-field-label">Keterangan</span>
