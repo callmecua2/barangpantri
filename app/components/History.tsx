@@ -23,8 +23,8 @@ type Period = "day" | "week" | "month";
 
 const TIME_ZONE = "Asia/Jakarta";
 
-const dateKey = (value: string | Date): string => {
-  const date = value instanceof Date ? value : new Date(value);
+const dateKey = (value: string): string => {
+  const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: TIME_ZONE,
@@ -35,6 +35,9 @@ const dateKey = (value: string | Date): string => {
   const part = (type: string) => parts.find((item) => item.type === type)?.value ?? "";
   return `${part("year")}-${part("month")}-${part("day")}`;
 };
+
+const calendarDateKey = (date: Date): string =>
+  `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
 
 const formatDate = (isoString: string): string => {
   if (!isoString || isoString === "-") return "-";
@@ -72,12 +75,12 @@ const getPeriodRange = (selectedDate: string, period: Period) => {
     start.setUTCDate(selected.getUTCDate() - daysSinceMonday);
     const end = new Date(start);
     end.setUTCDate(start.getUTCDate() + 6);
-    return { start: dateKey(start), end: dateKey(end) };
+    return { start: calendarDateKey(start), end: calendarDateKey(end) };
   }
 
   const start = new Date(Date.UTC(selected.getUTCFullYear(), selected.getUTCMonth(), 1));
   const end = new Date(Date.UTC(selected.getUTCFullYear(), selected.getUTCMonth() + 1, 0));
-  return { start: dateKey(start), end: dateKey(end) };
+  return { start: calendarDateKey(start), end: calendarDateKey(end) };
 };
 
 const getDays = (start: string, end: string) => {
@@ -85,7 +88,7 @@ const getDays = (start: string, end: string) => {
   const cursor = new Date(`${start}T00:00:00Z`);
   const last = new Date(`${end}T00:00:00Z`);
   while (cursor <= last) {
-    days.push(dateKey(cursor));
+    days.push(calendarDateKey(cursor));
     cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
   return days;
@@ -100,7 +103,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
   const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
-    setSelectedDate(dateKey(new Date()));
+    setSelectedDate(dateKey(new Date().toISOString()));
   }, []);
 
   const barangOptions = useMemo(() => {
