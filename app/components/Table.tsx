@@ -1,3 +1,5 @@
+"use client"; // Tambahkan ini jika komponen ini dirender di dalam Client Component
+
 import React from "react";
 
 export interface StockData {
@@ -40,7 +42,15 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
                 <td className="cell-center cell-muted">{row.no}</td>
                 <td className="cell-strong">{row.namaBarang}</td>
                 <td className="cell-center">
-                  <span className={`stock-badge ${row.jumlahStok === 0 ? "empty" : row.jumlahStok <= 3 ? "low" : ""}`}>
+                  <span
+                    className={`stock-badge ${
+                      row.jumlahStok === 0
+                        ? "empty"
+                        : row.jumlahStok <= 3
+                        ? "low"
+                        : ""
+                    }`}
+                  >
                     {row.jumlahStok}
                   </span>
                 </td>
@@ -62,7 +72,15 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
                 <span className="mobile-record-index">Barang #{row.no}</span>
                 <div className="mobile-record-title">{row.namaBarang}</div>
               </div>
-              <span className={`stock-badge ${row.jumlahStok === 0 ? "empty" : row.jumlahStok <= 3 ? "low" : ""}`}>
+              <span
+                className={`stock-badge ${
+                  row.jumlahStok === 0
+                    ? "empty"
+                    : row.jumlahStok <= 3
+                    ? "low"
+                    : ""
+                }`}
+              >
                 {row.jumlahStok} stok
               </span>
             </div>
@@ -77,7 +95,9 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
               </div>
               <div className="mobile-field">
                 <span className="mobile-field-label">Jumlah perubahan</span>
-                <span className="mobile-field-value">{row.jumlahPemakaianPenambahan}</span>
+                <span className="mobile-field-value">
+                  {row.jumlahPemakaianPenambahan}
+                </span>
               </div>
               <div className="mobile-field">
                 <span className="mobile-field-label">Penanggung jawab</span>
