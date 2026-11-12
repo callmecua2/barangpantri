@@ -6,13 +6,14 @@
 
   export interface StockMovement {
     id: string;
+    idBarang: string;
     tipe: string;
     jumlah: number;
     stokSebelum: number;
     stokSesudah: number;
     tanggal: string;
     penanggungJawab: { nama: string };
-    barang?: { nama: string; stok: number };
+    barang?: { id: string; nama: string; stok: number };
   }
 
   export interface StockItem {
@@ -55,9 +56,7 @@
       try {
         return await request<{ data: User }>("/me");
       } catch (err: any) {
-        if (err.status === 401) {
-          return null;
-        }
+        if (err.status === 401) return null;
         throw err;
       }
     },
@@ -114,7 +113,8 @@
 
   export function toHistoryLogs(movements: StockMovement[]) {
     return movements.map((m, i) => ({
-      id: i + 1,
+      id: m.id,
+      barangId: m.idBarang,
       no: i + 1,
       namaBarang: m.barang?.nama ?? "-",
       tanggal: m.tanggal,
