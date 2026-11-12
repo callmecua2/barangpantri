@@ -29,6 +29,17 @@ const dateKey = (date: Date) =>
 
 const todayKey = () => dateKey(new Date());
 
+const dateKeyInJakarta = (date: Date) => {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jakarta",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+};
+
 const parseDateKey = (value: string) => {
   const [year, month, day] = value.split("-").map(Number);
   return new Date(year, month - 1, day);
@@ -109,7 +120,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
   const filteredData = useMemo(
     () =>
       data.filter((row) => {
-        const rowDate = dateKey(new Date(row.tanggal));
+        const rowDate = dateKeyInJakarta(new Date(row.tanggal));
         const matchesItem = selectedItem === "all" || row.barangId === selectedItem;
         return matchesItem && rowDate >= range.start && rowDate <= range.end;
       }),
@@ -133,7 +144,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
     const grouped = new Map<string, { count: number; consumed: number; restocked: number }>();
 
     filteredData.forEach((row) => {
-      const key = dateKey(new Date(row.tanggal));
+      const key = dateKeyInJakarta(new Date(row.tanggal));
       const current = grouped.get(key) ?? { count: 0, consumed: 0, restocked: 0 };
 
       if (isUsage(row)) {
