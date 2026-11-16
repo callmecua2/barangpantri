@@ -3,14 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User } from "@/lib/api";
 
-interface NavbarProps {
-  user: User;
-  onLogout: () => void;
-}
-
-export default function Navbar({ user, onLogout }: NavbarProps) {
+export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -24,14 +18,9 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
   return (
     <>
       <header className="navigation-section">
-        <Link
-          href="/stok"
-          className="nav-brand"
-          onClick={() => setMenuOpen(false)}
-        >
+        <Link href="/stok" className="nav-brand" onClick={() => setMenuOpen(false)}>
           Pantry Stock
         </Link>
-
         <button
           type="button"
           className="nav-toggle"
@@ -42,11 +31,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         >
           <span aria-hidden="true">{menuOpen ? "×" : "☰"}</span>
         </button>
-
-        <div
-          id="primary-navigation"
-          className={`nav-content ${menuOpen ? "is-open" : ""}`}
-        >
+        <div id="primary-navigation" className={`nav-content ${menuOpen ? "is-open" : ""}`}>
           <nav className="nav-link" aria-label="Navigasi utama">
             {links.map((link) => (
               <Link
@@ -60,16 +45,6 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               </Link>
             ))}
           </nav>
-
-          <div className="nav-user">
-            <span className="nav-user-name">
-              <span className="nav-user-label">Login sebagai</span>
-              {user.nama}
-            </span>
-            <button type="button" className="nav-logout" onClick={onLogout}>
-              Logout
-            </button>
-          </div>
         </div>
       </header>
       <hr className="divider" />
