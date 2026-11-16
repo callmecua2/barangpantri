@@ -56,8 +56,3 @@ export type Barang = Prisma.BarangModel
  * 
  */
 export type StockMovement = Prisma.StockMovementModel
-/**
- * Model Test
- * 
- */
-export type Test = Prisma.TestModel

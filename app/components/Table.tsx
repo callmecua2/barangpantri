@@ -1,4 +1,4 @@
-"use client"; // Tambahkan ini jika komponen ini dirender di dalam Client Component
+"use client";
 
 import React from "react";
 
@@ -14,6 +14,46 @@ export interface StockData {
 
 interface StockTableProps {
   data: StockData[];
+}
+
+// Helper untuk mengubah angka desimal (misal 0.25 atau 1.5) menjadi teks pecahan ("1/4" atau "1 1/2")
+function formatPecahan(nilai: number): string {
+  const num = Number(nilai);
+  if (!Number.isFinite(num)) return String(nilai);
+  if (num === 0) return "0";
+
+  const isNegative = num < 0;
+  const absVal = Math.abs(num);
+  const bilanganBulat = Math.floor(absVal);
+  // Bulatkan 2 digit desimal untuk menghindari floating-point error (misal 0.25000001)
+  const sisaDesimal = Math.round((absVal - bilanganBulat) * 100) / 100;
+
+  const petaPecahan: Record<number, string> = {
+    0.25: "1/4",
+    0.5: "1/2",
+    0.75: "3/4",
+    0.2: "1/5",
+    0.4: "2/5",
+    0.6: "3/5",
+    0.8: "4/5",
+    0.33: "1/3",
+    0.67: "2/3",
+  };
+
+  let hasil = "";
+  if (sisaDesimal === 0) {
+    hasil = `${bilanganBulat}`;
+  } else if (petaPecahan[sisaDesimal]) {
+    hasil =
+      bilanganBulat > 0
+        ? `${bilanganBulat} ${petaPecahan[sisaDesimal]}`
+        : petaPecahan[sisaDesimal];
+  } else {
+    // Jika desimal tidak ada di daftar pecahan umum (misal 0.15), tampilkan angka aslinya
+    hasil = `${absVal}`;
+  }
+
+  return isNegative ? `-${hasil}` : hasil;
 }
 
 export const StockTable: React.FC<StockTableProps> = ({ data }) => {
@@ -51,13 +91,15 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
                         : ""
                     }`}
                   >
-                    {row.jumlahStok}
+                    {formatPecahan(row.jumlahStok)}
                   </span>
                 </td>
                 <td>{row.tanggalUpdate}</td>
                 <td>{row.keterangan}</td>
                 <td>{row.penanggungJawab}</td>
-                <td className="cell-center">{row.jumlahPemakaianPenambahan}</td>
+                <td className="cell-center">
+                  {formatPecahan(row.jumlahPemakaianPenambahan)}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -81,7 +123,7 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
                     : ""
                 }`}
               >
-                {row.jumlahStok} stok
+                {formatPecahan(row.jumlahStok)} stok
               </span>
             </div>
             <div className="mobile-record-grid">
@@ -96,7 +138,7 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
               <div className="mobile-field">
                 <span className="mobile-field-label">Jumlah perubahan</span>
                 <span className="mobile-field-value">
-                  {row.jumlahPemakaianPenambahan}
+                  {formatPecahan(row.jumlahPemakaianPenambahan)}
                 </span>
               </div>
               <div className="mobile-field">

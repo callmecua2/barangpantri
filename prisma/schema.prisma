@@ -22,12 +22,12 @@ model User {
 }
 
 model Barang {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   nama        String
-  stok        Int    @default(0)      // ← source of truth stok terkini
+  stok        Decimal @default(0) @db.Decimal(10, 2) // ← menampung bulat & desimal (misal: 5 atau 0.25)
 
   inputOlehId String
-  inputOleh   User   @relation(fields: [inputOlehId], references: [id])
+  inputOleh   User    @relation(fields: [inputOlehId], references: [id])
 
   movements   StockMovement[]
 }
@@ -39,10 +39,10 @@ model StockMovement {
   barang      Barang   @relation(fields: [idBarang], references: [id])
 
   tipe        String   // "PEMAKAIAN" | "RESTOCK" | "INISIALISASI"
-  jumlah      Int      // SELALU positif, arah ditentukan oleh `tipe`
+  jumlah      Decimal  @db.Decimal(10, 2) // SELALU positif, arah ditentukan oleh `tipe`
 
-  stokSebelum Int      // snapshot stok sebelum update
-  stokSesudah Int      // snapshot stok sesudah update
+  stokSebelum Decimal  @db.Decimal(10, 2) // snapshot stok sebelum update
+  stokSesudah Decimal  @db.Decimal(10, 2) // snapshot stok sesudah update
 
   penanggungJawabId String
   penanggungJawab   User   @relation(fields: [penanggungJawabId], references: [id])
@@ -50,8 +50,4 @@ model StockMovement {
   tanggal     DateTime @default(now())
 
   @@index([idBarang, tanggal])   // percepat query "latest per barang"
-}
-
-model Test {
-  name String @unique
 }

@@ -11,5 +11,4 @@
 export type * from './models/User'
 export type * from './models/Barang'
 export type * from './models/StockMovement'
-export type * from './models/Test'
 export type * from './commonInputTypes'
