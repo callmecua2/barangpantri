@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { usePantry } from "../layout";
@@ -7,30 +6,46 @@ import { api } from "@/lib/api";
 
 export default function UpdatePage() {
   const { stockItems, refreshAll } = usePantry();
-  const itemNames = stockItems.map((i) => i.nama);
+
+  // Petakan stockItems menjadi format BarangOption ({ id, nama })
+  const itemOptions = stockItems.map((item) => ({
+    id: item.id,
+    nama: item.nama,
+  }));
 
   const handleStockUpdateSubmit = async (data: StockUpdatePayload) => {
-    const barang = stockItems.find((s) => s.nama === data.namaBarang);
+    const barang = stockItems.find((s) => s.id === data.idBarang);
     if (!barang) throw new Error("Barang tidak ditemukan");
 
     try {
       await api.updateStock({
-        id: barang.id,
-        jumlah: data.jumlahUpdate,
+        idBarang: barang.id,
+        jumlah: data.jumlah,
         keterangan: data.keterangan,
         penanggungJawab: data.penanggungJawab,
+        tanggal: data.tanggal,
       });
+
       await refreshAll();
-      alert(`Update Stok Berhasil:\nBarang: ${data.namaBarang}\nTipe: ${data.keterangan}\nJumlah: ${data.jumlahUpdate}\nPenanggung Jawab: ${data.penanggungJawab}`);
-    } catch (e: any) {
-      throw new Error(`Gagal update: ${e.message}`);
+
+      alert(
+        `Update Stok Berhasil:\n` +
+        `Barang: ${barang.nama}\n` +
+        `Tipe: ${data.keterangan}\n` +
+        `Jumlah: ${data.jumlah}\n` +
+        `Tanggal: ${data.tanggal}\n` +
+        `Penanggung Jawab: ${data.penanggungJawab}`
+      );
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan saat menghubungi server";
+      throw new Error(`Gagal update: ${errorMessage}`);
     }
   };
 
   return (
     <section className="update-section">
       <h2 style={{ marginBottom: "24px" }}>Form Update Stok Pantry</h2>
-      <UpdateStockForm itemList={itemNames} onSubmit={handleStockUpdateSubmit} />
+      <UpdateStockForm itemList={itemOptions} onSubmit={handleStockUpdateSubmit} />
     </section>
   );
 }

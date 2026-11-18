@@ -171,13 +171,13 @@ export type UserOrderByWithRelationInput = {
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  nama?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  nama?: Prisma.StringFilter<"User"> | string
   barang?: Prisma.BarangListRelationFilter
   movements?: Prisma.StockMovementListRelationFilter
-}, "id">
+}, "id" | "nama">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface StockMovement {
   id: string;
   idBarang: string;
-  tipe: string;
+  tipe: "PEMAKAIAN" | "RESTOCK" | "INISIALISASI" | string;
   jumlah: number;
   stokSebelum: number;
   stokSesudah: number;
@@ -25,6 +24,24 @@ export interface StockItem {
   } | null;
 }
 
+export interface UpdateStockPayload {
+  idBarang: string;
+  jumlah: number;
+  keterangan: "PEMAKAIAN" | "RESTOCK";
+  penanggungJawab: string;
+  tanggal: string;
+}
+
+export class ApiError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
 const BASE = "/api";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
@@ -32,28 +49,25 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     headers: { "Content-Type": "application/json", ...options?.headers },
     ...options,
   });
-  const data = await res.json().catch(() => ({}));
+
+  const data = (await res.json().catch(() => ({}))) as { message?: string };
+
   if (!res.ok) {
     const errorMessage = data?.message || `Request gagal dengan status ${res.status}`;
-    const error = new Error(errorMessage);
-    (error as any).status = res.status;
-    throw error;
+    throw new ApiError(errorMessage, res.status);
   }
-  return data;
+
+  return data as T;
 }
 
 export const api = {
   getStock: () => request<{ data: StockItem[] }>("/stock").then((r) => r.data),
   getAllHistory: () => request<{ data: StockMovement[] }>("/history").then((r) => r.data),
-  updateStock: (payload: {
-    id: string;
-    jumlah: number;
-    keterangan: "PEMAKAIAN" | "RESTOCK";
-    penanggungJawab: string;
-  }) => request<{ data: { stokSebelum: number; stokSesudah: number } }>("/update", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  }),
+  updateStock: (payload: UpdateStockPayload) =>
+    request<{ data: { stokSebelum: number; stokSesudah: number } }>("/update", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
 
 const LOW_STOCK_THRESHOLD = 3;
@@ -73,12 +87,15 @@ export function toStockData(items: StockItem[]) {
 }
 
 export function toLowStockData(items: StockItem[]) {
-  return items.filter((it) => it.stok <= LOW_STOCK_THRESHOLD).sort((a, b) => a.stok - b.stok).map((it, i) => ({
-    no: i + 1,
-    namaBarang: it.nama,
-    jumlahStok: it.stok,
-    tanggalPemakaianTerakhir: it.updateTerakhir?.tanggal?.slice(0, 10) ?? "-",
-  }));
+  return items
+    .filter((it) => it.stok <= LOW_STOCK_THRESHOLD)
+    .sort((a, b) => a.stok - b.stok)
+    .map((it, i) => ({
+      no: i + 1,
+      namaBarang: it.nama,
+      jumlahStok: it.stok,
+      tanggalPemakaianTerakhir: it.updateTerakhir?.tanggal?.slice(0, 10) ?? "-",
+    }));
 }
 
 export function toHistoryLogs(movements: StockMovement[]) {

@@ -15,16 +15,16 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  nama      String
+  nama      String   @unique
 
-  barang    Barang[]         // barang yang diinput user ini
-  movements StockMovement[]  // movement yang dipertanggungjawabkan
+  barang    Barang[]
+  movements StockMovement[]
 }
 
 model Barang {
   id          String  @id @default(uuid())
   nama        String
-  stok        Decimal @default(0) @db.Decimal(10, 2) // ← menampung bulat & desimal (misal: 5 atau 0.25)
+  stok        Int
 
   inputOlehId String
   inputOleh   User    @relation(fields: [inputOlehId], references: [id])
@@ -33,16 +33,16 @@ model Barang {
 }
 
 model StockMovement {
-  id          String   @id @default(uuid())
+  id          String   @id @default(ulid())
 
   idBarang    String
   barang      Barang   @relation(fields: [idBarang], references: [id])
 
   tipe        String   // "PEMAKAIAN" | "RESTOCK" | "INISIALISASI"
-  jumlah      Decimal  @db.Decimal(10, 2) // SELALU positif, arah ditentukan oleh `tipe`
+  jumlah      Int 
 
-  stokSebelum Decimal  @db.Decimal(10, 2) // snapshot stok sebelum update
-  stokSesudah Decimal  @db.Decimal(10, 2) // snapshot stok sesudah update
+  stokSebelum Int
+  stokSesudah Int
 
   penanggungJawabId String
   penanggungJawab   User   @relation(fields: [penanggungJawabId], references: [id])

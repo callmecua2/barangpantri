@@ -111,7 +111,7 @@ export const StockTable: React.FC<StockTableProps> = ({ data }) => {
           <article className="mobile-record" key={row.no}>
             <div className="mobile-record-heading">
               <div>
-                <span className="mobile-record-index">Barang #{row.no}</span>
+                <span className="mobile-record-index">Barangasda #{row.no}</span>
                 <div className="mobile-record-title">{row.namaBarang}</div>
               </div>
               <span

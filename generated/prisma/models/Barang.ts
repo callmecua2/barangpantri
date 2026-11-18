@@ -27,24 +27,24 @@ export type AggregateBarang = {
 }
 
 export type BarangAvgAggregateOutputType = {
-  stok: runtime.Decimal | null
+  stok: number | null
 }
 
 export type BarangSumAggregateOutputType = {
-  stok: runtime.Decimal | null
+  stok: number | null
 }
 
 export type BarangMinAggregateOutputType = {
   id: string | null
   nama: string | null
-  stok: runtime.Decimal | null
+  stok: number | null
   inputOlehId: string | null
 }
 
 export type BarangMaxAggregateOutputType = {
   id: string | null
   nama: string | null
-  stok: runtime.Decimal | null
+  stok: number | null
   inputOlehId: string | null
 }
 
@@ -176,7 +176,7 @@ export type BarangGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type BarangGroupByOutputType = {
   id: string
   nama: string
-  stok: runtime.Decimal
+  stok: number
   inputOlehId: string
   _count: BarangCountAggregateOutputType | null
   _avg: BarangAvgAggregateOutputType | null
@@ -206,7 +206,7 @@ export type BarangWhereInput = {
   NOT?: Prisma.BarangWhereInput | Prisma.BarangWhereInput[]
   id?: Prisma.StringFilter<"Barang"> | string
   nama?: Prisma.StringFilter<"Barang"> | string
-  stok?: Prisma.DecimalFilter<"Barang"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFilter<"Barang"> | number
   inputOlehId?: Prisma.StringFilter<"Barang"> | string
   inputOleh?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   movements?: Prisma.StockMovementListRelationFilter
@@ -227,7 +227,7 @@ export type BarangWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.BarangWhereInput[]
   NOT?: Prisma.BarangWhereInput | Prisma.BarangWhereInput[]
   nama?: Prisma.StringFilter<"Barang"> | string
-  stok?: Prisma.DecimalFilter<"Barang"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFilter<"Barang"> | number
   inputOlehId?: Prisma.StringFilter<"Barang"> | string
   inputOleh?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   movements?: Prisma.StockMovementListRelationFilter
@@ -251,14 +251,14 @@ export type BarangScalarWhereWithAggregatesInput = {
   NOT?: Prisma.BarangScalarWhereWithAggregatesInput | Prisma.BarangScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Barang"> | string
   nama?: Prisma.StringWithAggregatesFilter<"Barang"> | string
-  stok?: Prisma.DecimalWithAggregatesFilter<"Barang"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntWithAggregatesFilter<"Barang"> | number
   inputOlehId?: Prisma.StringWithAggregatesFilter<"Barang"> | string
 }
 
 export type BarangCreateInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   inputOleh: Prisma.UserCreateNestedOneWithoutBarangInput
   movements?: Prisma.StockMovementCreateNestedManyWithoutBarangInput
 }
@@ -266,7 +266,7 @@ export type BarangCreateInput = {
 export type BarangUncheckedCreateInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   inputOlehId: string
   movements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutBarangInput
 }
@@ -274,7 +274,7 @@ export type BarangUncheckedCreateInput = {
 export type BarangUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   inputOleh?: Prisma.UserUpdateOneRequiredWithoutBarangNestedInput
   movements?: Prisma.StockMovementUpdateManyWithoutBarangNestedInput
 }
@@ -282,7 +282,7 @@ export type BarangUpdateInput = {
 export type BarangUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   inputOlehId?: Prisma.StringFieldUpdateOperationsInput | string
   movements?: Prisma.StockMovementUncheckedUpdateManyWithoutBarangNestedInput
 }
@@ -290,20 +290,20 @@ export type BarangUncheckedUpdateInput = {
 export type BarangCreateManyInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   inputOlehId: string
 }
 
 export type BarangUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BarangUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   inputOlehId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -393,12 +393,12 @@ export type BarangUncheckedUpdateManyWithoutInputOlehNestedInput = {
   deleteMany?: Prisma.BarangScalarWhereInput | Prisma.BarangScalarWhereInput[]
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type BarangCreateNestedOneWithoutMovementsInput = {
@@ -418,14 +418,14 @@ export type BarangUpdateOneRequiredWithoutMovementsNestedInput = {
 export type BarangCreateWithoutInputOlehInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   movements?: Prisma.StockMovementCreateNestedManyWithoutBarangInput
 }
 
 export type BarangUncheckedCreateWithoutInputOlehInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   movements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutBarangInput
 }
 
@@ -461,21 +461,21 @@ export type BarangScalarWhereInput = {
   NOT?: Prisma.BarangScalarWhereInput | Prisma.BarangScalarWhereInput[]
   id?: Prisma.StringFilter<"Barang"> | string
   nama?: Prisma.StringFilter<"Barang"> | string
-  stok?: Prisma.DecimalFilter<"Barang"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFilter<"Barang"> | number
   inputOlehId?: Prisma.StringFilter<"Barang"> | string
 }
 
 export type BarangCreateWithoutMovementsInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   inputOleh: Prisma.UserCreateNestedOneWithoutBarangInput
 }
 
 export type BarangUncheckedCreateWithoutMovementsInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
   inputOlehId: string
 }
 
@@ -498,41 +498,41 @@ export type BarangUpdateToOneWithWhereWithoutMovementsInput = {
 export type BarangUpdateWithoutMovementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   inputOleh?: Prisma.UserUpdateOneRequiredWithoutBarangNestedInput
 }
 
 export type BarangUncheckedUpdateWithoutMovementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   inputOlehId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type BarangCreateManyInputOlehInput = {
   id?: string
   nama: string
-  stok?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok: number
 }
 
 export type BarangUpdateWithoutInputOlehInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   movements?: Prisma.StockMovementUpdateManyWithoutBarangNestedInput
 }
 
 export type BarangUncheckedUpdateWithoutInputOlehInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
   movements?: Prisma.StockMovementUncheckedUpdateManyWithoutBarangNestedInput
 }
 
 export type BarangUncheckedUpdateManyWithoutInputOlehInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
-  stok?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  stok?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -621,7 +621,7 @@ export type $BarangPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     nama: string
-    stok: runtime.Decimal
+    stok: number
     inputOlehId: string
   }, ExtArgs["result"]["barang"]>
   composites: {}
@@ -1050,7 +1050,7 @@ export interface Prisma__BarangClient<T, Null = never, ExtArgs extends runtime.T
 export interface BarangFieldRefs {
   readonly id: Prisma.FieldRef<"Barang", 'String'>
   readonly nama: Prisma.FieldRef<"Barang", 'String'>
-  readonly stok: Prisma.FieldRef<"Barang", 'Decimal'>
+  readonly stok: Prisma.FieldRef<"Barang", 'Int'>
   readonly inputOlehId: Prisma.FieldRef<"Barang", 'String'>
 }
     

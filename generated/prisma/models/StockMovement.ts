@@ -27,24 +27,24 @@ export type AggregateStockMovement = {
 }
 
 export type StockMovementAvgAggregateOutputType = {
-  jumlah: runtime.Decimal | null
-  stokSebelum: runtime.Decimal | null
-  stokSesudah: runtime.Decimal | null
+  jumlah: number | null
+  stokSebelum: number | null
+  stokSesudah: number | null
 }
 
 export type StockMovementSumAggregateOutputType = {
-  jumlah: runtime.Decimal | null
-  stokSebelum: runtime.Decimal | null
-  stokSesudah: runtime.Decimal | null
+  jumlah: number | null
+  stokSebelum: number | null
+  stokSesudah: number | null
 }
 
 export type StockMovementMinAggregateOutputType = {
   id: string | null
   idBarang: string | null
   tipe: string | null
-  jumlah: runtime.Decimal | null
-  stokSebelum: runtime.Decimal | null
-  stokSesudah: runtime.Decimal | null
+  jumlah: number | null
+  stokSebelum: number | null
+  stokSesudah: number | null
   penanggungJawabId: string | null
   tanggal: Date | null
 }
@@ -53,9 +53,9 @@ export type StockMovementMaxAggregateOutputType = {
   id: string | null
   idBarang: string | null
   tipe: string | null
-  jumlah: runtime.Decimal | null
-  stokSebelum: runtime.Decimal | null
-  stokSesudah: runtime.Decimal | null
+  jumlah: number | null
+  stokSebelum: number | null
+  stokSesudah: number | null
   penanggungJawabId: string | null
   tanggal: Date | null
 }
@@ -209,9 +209,9 @@ export type StockMovementGroupByOutputType = {
   id: string
   idBarang: string
   tipe: string
-  jumlah: runtime.Decimal
-  stokSebelum: runtime.Decimal
-  stokSesudah: runtime.Decimal
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   penanggungJawabId: string
   tanggal: Date
   _count: StockMovementCountAggregateOutputType | null
@@ -243,9 +243,9 @@ export type StockMovementWhereInput = {
   id?: Prisma.StringFilter<"StockMovement"> | string
   idBarang?: Prisma.StringFilter<"StockMovement"> | string
   tipe?: Prisma.StringFilter<"StockMovement"> | string
-  jumlah?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFilter<"StockMovement"> | number
+  stokSebelum?: Prisma.IntFilter<"StockMovement"> | number
+  stokSesudah?: Prisma.IntFilter<"StockMovement"> | number
   penanggungJawabId?: Prisma.StringFilter<"StockMovement"> | string
   tanggal?: Prisma.DateTimeFilter<"StockMovement"> | Date | string
   barang?: Prisma.XOR<Prisma.BarangScalarRelationFilter, Prisma.BarangWhereInput>
@@ -272,9 +272,9 @@ export type StockMovementWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.StockMovementWhereInput | Prisma.StockMovementWhereInput[]
   idBarang?: Prisma.StringFilter<"StockMovement"> | string
   tipe?: Prisma.StringFilter<"StockMovement"> | string
-  jumlah?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFilter<"StockMovement"> | number
+  stokSebelum?: Prisma.IntFilter<"StockMovement"> | number
+  stokSesudah?: Prisma.IntFilter<"StockMovement"> | number
   penanggungJawabId?: Prisma.StringFilter<"StockMovement"> | string
   tanggal?: Prisma.DateTimeFilter<"StockMovement"> | Date | string
   barang?: Prisma.XOR<Prisma.BarangScalarRelationFilter, Prisma.BarangWhereInput>
@@ -304,9 +304,9 @@ export type StockMovementScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"StockMovement"> | string
   idBarang?: Prisma.StringWithAggregatesFilter<"StockMovement"> | string
   tipe?: Prisma.StringWithAggregatesFilter<"StockMovement"> | string
-  jumlah?: Prisma.DecimalWithAggregatesFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalWithAggregatesFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalWithAggregatesFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntWithAggregatesFilter<"StockMovement"> | number
+  stokSebelum?: Prisma.IntWithAggregatesFilter<"StockMovement"> | number
+  stokSesudah?: Prisma.IntWithAggregatesFilter<"StockMovement"> | number
   penanggungJawabId?: Prisma.StringWithAggregatesFilter<"StockMovement"> | string
   tanggal?: Prisma.DateTimeWithAggregatesFilter<"StockMovement"> | Date | string
 }
@@ -314,9 +314,9 @@ export type StockMovementScalarWhereWithAggregatesInput = {
 export type StockMovementCreateInput = {
   id?: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   tanggal?: Date | string
   barang: Prisma.BarangCreateNestedOneWithoutMovementsInput
   penanggungJawab: Prisma.UserCreateNestedOneWithoutMovementsInput
@@ -326,9 +326,9 @@ export type StockMovementUncheckedCreateInput = {
   id?: string
   idBarang: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   penanggungJawabId: string
   tanggal?: Date | string
 }
@@ -336,9 +336,9 @@ export type StockMovementUncheckedCreateInput = {
 export type StockMovementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   barang?: Prisma.BarangUpdateOneRequiredWithoutMovementsNestedInput
   penanggungJawab?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
@@ -348,9 +348,9 @@ export type StockMovementUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   idBarang?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   penanggungJawabId?: Prisma.StringFieldUpdateOperationsInput | string
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -359,9 +359,9 @@ export type StockMovementCreateManyInput = {
   id?: string
   idBarang: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   penanggungJawabId: string
   tanggal?: Date | string
 }
@@ -369,9 +369,9 @@ export type StockMovementCreateManyInput = {
 export type StockMovementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -379,9 +379,9 @@ export type StockMovementUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   idBarang?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   penanggungJawabId?: Prisma.StringFieldUpdateOperationsInput | string
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -532,9 +532,9 @@ export type DateTimeFieldUpdateOperationsInput = {
 export type StockMovementCreateWithoutPenanggungJawabInput = {
   id?: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   tanggal?: Date | string
   barang: Prisma.BarangCreateNestedOneWithoutMovementsInput
 }
@@ -543,9 +543,9 @@ export type StockMovementUncheckedCreateWithoutPenanggungJawabInput = {
   id?: string
   idBarang: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   tanggal?: Date | string
 }
 
@@ -582,9 +582,9 @@ export type StockMovementScalarWhereInput = {
   id?: Prisma.StringFilter<"StockMovement"> | string
   idBarang?: Prisma.StringFilter<"StockMovement"> | string
   tipe?: Prisma.StringFilter<"StockMovement"> | string
-  jumlah?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFilter<"StockMovement"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFilter<"StockMovement"> | number
+  stokSebelum?: Prisma.IntFilter<"StockMovement"> | number
+  stokSesudah?: Prisma.IntFilter<"StockMovement"> | number
   penanggungJawabId?: Prisma.StringFilter<"StockMovement"> | string
   tanggal?: Prisma.DateTimeFilter<"StockMovement"> | Date | string
 }
@@ -592,9 +592,9 @@ export type StockMovementScalarWhereInput = {
 export type StockMovementCreateWithoutBarangInput = {
   id?: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   tanggal?: Date | string
   penanggungJawab: Prisma.UserCreateNestedOneWithoutMovementsInput
 }
@@ -602,9 +602,9 @@ export type StockMovementCreateWithoutBarangInput = {
 export type StockMovementUncheckedCreateWithoutBarangInput = {
   id?: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   penanggungJawabId: string
   tanggal?: Date | string
 }
@@ -639,18 +639,18 @@ export type StockMovementCreateManyPenanggungJawabInput = {
   id?: string
   idBarang: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   tanggal?: Date | string
 }
 
 export type StockMovementUpdateWithoutPenanggungJawabInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   barang?: Prisma.BarangUpdateOneRequiredWithoutMovementsNestedInput
 }
@@ -659,9 +659,9 @@ export type StockMovementUncheckedUpdateWithoutPenanggungJawabInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   idBarang?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -669,18 +669,18 @@ export type StockMovementUncheckedUpdateManyWithoutPenanggungJawabInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   idBarang?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StockMovementCreateManyBarangInput = {
   id?: string
   tipe: string
-  jumlah: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum: runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah: runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah: number
+  stokSebelum: number
+  stokSesudah: number
   penanggungJawabId: string
   tanggal?: Date | string
 }
@@ -688,9 +688,9 @@ export type StockMovementCreateManyBarangInput = {
 export type StockMovementUpdateWithoutBarangInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   penanggungJawab?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
 }
@@ -698,9 +698,9 @@ export type StockMovementUpdateWithoutBarangInput = {
 export type StockMovementUncheckedUpdateWithoutBarangInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   penanggungJawabId?: Prisma.StringFieldUpdateOperationsInput | string
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -708,9 +708,9 @@ export type StockMovementUncheckedUpdateWithoutBarangInput = {
 export type StockMovementUncheckedUpdateManyWithoutBarangInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
-  jumlah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSebelum?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  stokSesudah?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSebelum?: Prisma.IntFieldUpdateOperationsInput | number
+  stokSesudah?: Prisma.IntFieldUpdateOperationsInput | number
   penanggungJawabId?: Prisma.StringFieldUpdateOperationsInput | string
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -791,9 +791,9 @@ export type $StockMovementPayload<ExtArgs extends runtime.Types.Extensions.Inter
     id: string
     idBarang: string
     tipe: string
-    jumlah: runtime.Decimal
-    stokSebelum: runtime.Decimal
-    stokSesudah: runtime.Decimal
+    jumlah: number
+    stokSebelum: number
+    stokSesudah: number
     penanggungJawabId: string
     tanggal: Date
   }, ExtArgs["result"]["stockMovement"]>
@@ -1224,9 +1224,9 @@ export interface StockMovementFieldRefs {
   readonly id: Prisma.FieldRef<"StockMovement", 'String'>
   readonly idBarang: Prisma.FieldRef<"StockMovement", 'String'>
   readonly tipe: Prisma.FieldRef<"StockMovement", 'String'>
-  readonly jumlah: Prisma.FieldRef<"StockMovement", 'Decimal'>
-  readonly stokSebelum: Prisma.FieldRef<"StockMovement", 'Decimal'>
-  readonly stokSesudah: Prisma.FieldRef<"StockMovement", 'Decimal'>
+  readonly jumlah: Prisma.FieldRef<"StockMovement", 'Int'>
+  readonly stokSebelum: Prisma.FieldRef<"StockMovement", 'Int'>
+  readonly stokSesudah: Prisma.FieldRef<"StockMovement", 'Int'>
   readonly penanggungJawabId: Prisma.FieldRef<"StockMovement", 'String'>
   readonly tanggal: Prisma.FieldRef<"StockMovement", 'DateTime'>
 }
