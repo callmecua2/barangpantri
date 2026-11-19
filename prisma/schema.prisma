@@ -14,7 +14,7 @@ datasource db {
 
 
 model User {
-  id        String   @id @default(uuid())
+  id        String   @id @default(ulid())
   nama      String   @unique
 
   barang    Barang[]
@@ -22,7 +22,7 @@ model User {
 }
 
 model Barang {
-  id          String  @id @default(uuid())
+  id          String  @id @default(ulid())
   nama        String
   stok        Int
 
