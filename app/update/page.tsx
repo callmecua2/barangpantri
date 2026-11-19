@@ -7,7 +7,6 @@ import { api } from "@/lib/api";
 export default function UpdatePage() {
   const { stockItems, refreshAll } = usePantry();
 
-  // Petakan stockItems menjadi format BarangOption ({ id, nama })
   const itemOptions = stockItems.map((item) => ({
     id: item.id,
     nama: item.nama,
@@ -23,7 +22,7 @@ export default function UpdatePage() {
         jumlah: data.jumlah,
         keterangan: data.keterangan,
         penanggungJawab: data.penanggungJawab,
-        tanggal: data.tanggal,
+        tanggal: ""
       });
 
       await refreshAll();
@@ -33,7 +32,6 @@ export default function UpdatePage() {
         `Barang: ${barang.nama}\n` +
         `Tipe: ${data.keterangan}\n` +
         `Jumlah: ${data.jumlah}\n` +
-        `Tanggal: ${data.tanggal}\n` +
         `Penanggung Jawab: ${data.penanggungJawab}`
       );
     } catch (error) {
