@@ -647,12 +647,12 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
         <article className="history-summary-card">
           <span>Total pemakaian</span>
           <strong>{formatNumber(totalUsage)} <small>unit</small></strong>
-          <p>Hanya transaksi pemakaian, tidak termasuk restock.</p>
+          <p>Hanya pemakaian, tidak termasuk restock.</p>
         </article>
         <article className="history-summary-card">
           <span>Frekuensi pemakaian</span>
           <strong>{formatNumber(usageFrequency)} <small>kali</small></strong>
-          <p>Jumlah transaksi pemakaian dalam periode.</p>
+          <p>Jumlah pemakaian dalam periode.</p>
         </article>
         <article className="history-summary-card">
           <span>Rata-rata per hari</span>
@@ -705,13 +705,13 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
 
       <div className="history-table-heading">
         <div>
-          <h3>Detail riwayat transaksi</h3>
-          <p>{periodData.length} transaksi pada periode terpilih</p>
+          <h3>Detail riwayat pemakaian</h3>
+          <p>{periodData.length} pemakain pada periode terpilih</p>
         </div>
       </div>
 
       {periodData.length === 0 ? (
-        <div className="table-card empty-state">Tidak ada transaksi untuk filter yang dipilih.</div>
+        <div className="table-card empty-state">Tidak ada pemakaian untuk filter yang dipilih.</div>
       ) : (
         <div className="table-card">
           <div className="table-scroll responsive-table-desktop">
@@ -752,7 +752,7 @@ export const StockHistoryTable: React.FC<StockHistoryTableProps> = ({ data }) =>
               <article className="mobile-record" key={row.id}>
                 <div className="mobile-record-heading">
                   <div>
-                    <span className="mobile-record-index">Transaksi #{index + 1}</span>
+                    <span className="mobile-record-index">Pemakaian #{index + 1}</span>
                     <div className="mobile-record-title">{row.namaBarang}</div>
                   </div>
                   <span className={row.keterangan === "PEMAKAIAN" ? "movement-negative" : "movement-positive"}>
